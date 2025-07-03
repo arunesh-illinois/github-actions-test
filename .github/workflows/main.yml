@@ -43,7 +43,7 @@ jobs:
       - name: Run tests
         run: |
           pwd
-          cd ../../
           cd iguide-ue-backend
           pwd
+          cat ./tests/secrets/localhost/key.pem
           npm run test:dev
