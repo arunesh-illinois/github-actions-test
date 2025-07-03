@@ -27,11 +27,11 @@ jobs:
 
       - name: Install required Linux packages
         run: |
-          sudo apk --no-cache add git gpg gpg-agent || sudo apt-get update && sudo apt-get install -y git gnupg
+          sudo apt-get update && sudo apt-get install -y git gnupg
 
       - name: Clone target repo
         run: |
-          git clone -b dev-candidate --single-branch https://github.com/I-GUIDE/iguide-ue-backend.git
+          git clone -b test-env-changes --single-branch https://github.com/I-GUIDE/iguide-ue-backend.git
           cd iguide-ue-backend
           npm install
 
@@ -42,8 +42,5 @@ jobs:
 
       - name: Run tests
         run: |
-          pwd
           cd iguide-ue-backend
-          pwd
-          cat ./tests/secrets/localhost/key.pem
           npm run test:dev
