@@ -39,9 +39,11 @@ jobs:
         run: |
           cd iguide-ue-backend/tests/secrets
           sh decrypt.sh
-          cd -
 
       - name: Run tests
         run: |
+          pwd
+          cd ../../
           cd iguide-ue-backend
+          pwd
           npm run test:dev
