@@ -31,7 +31,7 @@ jobs:
 
       - name: Clone target repo
         run: |
-          git clone -b test-env-changes --single-branch https://github.com/I-GUIDE/iguide-ue-backend.git
+          git clone -b automated-tests --single-branch https://github.com/I-GUIDE/iguide-ue-backend.git
           cd iguide-ue-backend
           npm install
 
