@@ -1,19 +1,18 @@
 name: Run Testing Environment
 
 on:
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:
     inputs:
       branch:
         description: "Branch to run on"
         required: false
-        default: "dev-candidate"  # Default branch
+        default: "dev-candidate"
         type: string
 
 jobs:
   Run-Test-Cases:
     runs-on: ubuntu-latest
     env:
-      # Example of setting an environment variable
       LARGE_SECRET_PASSPHRASE: ${{ secrets.TESTING_PHRASE }}
 
     steps:
@@ -32,17 +31,18 @@ jobs:
       - name: Clone target repo
         run: |
           git clone -b ${{ github.event.inputs.branch }} --single-branch https://github.com/I-GUIDE/iguide-ue-backend.git
-          
+
       - name: Install npm packages
+        working-directory: iguide-ue-backend
         run: |
           npm install
-          
+
       - name: Decrypt secrets
+        working-directory: iguide-ue-backend/tests/secrets
         run: |
-          cd iguide-ue-backend/tests/secrets
           sh decrypt.sh
-          cd -
 
       - name: Run tests
+        working-directory: iguide-ue-backend
         run: |
           npm run test:dev
