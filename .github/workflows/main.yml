@@ -6,16 +6,16 @@ on:
       branch:
         description: "Branch to run on"
         required: false
-        default: "main"  # Default branch
+        default: "dev-candidate"  # Default branch
         type: string
 
 jobs:
-  setup-test-env:
+  Run-Test-Cases:
     runs-on: ubuntu-latest
     env:
       # Example of setting an environment variable
       LARGE_SECRET_PASSPHRASE: ${{ secrets.TESTING_PHRASE }}
-    
+
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v4
@@ -31,16 +31,18 @@ jobs:
 
       - name: Clone target repo
         run: |
-          git clone -b automated-tests --single-branch https://github.com/I-GUIDE/iguide-ue-backend.git
-          cd iguide-ue-backend
+          git clone -b ${{ github.event.inputs.branch }} --single-branch https://github.com/I-GUIDE/iguide-ue-backend.git
+          
+      - name: Install npm packages
+        run: |
           npm install
-
+          
       - name: Decrypt secrets
         run: |
           cd iguide-ue-backend/tests/secrets
           sh decrypt.sh
+          cd -
 
       - name: Run tests
         run: |
-          cd iguide-ue-backend
           npm run test:dev
